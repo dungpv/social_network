@@ -1,0 +1,8 @@
+{
+  "name": "RestAPI",
+  "version": "1.0.0",
+  "description": "A mini social network for TEDU community",
+  "main": "src/server.ts",
+  "author": "dungpv",
+  "license": "MIT"
+}

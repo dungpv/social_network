@@ -18,3 +18,8 @@
 - git config --global user.email vietdungst@gmail.com
 - git remote add origin https://github.com/dungpv/social_network.git
 - git push -u origin main
+
+## lession 10
+
+- init complier: tsc --init
+- config ts file json

@@ -23,3 +23,8 @@
 
 - init complier: tsc --init
 - config ts file json
+
+## Reference
+
+http://expressjs.com/en/resources/middleware/morgan.html
+https://www.typescriptlang.org/tsconfig

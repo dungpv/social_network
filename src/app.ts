@@ -1,5 +1,5 @@
-import { Logger } from './core/utils';
-import { Route } from './core/interfaces';
+import { Logger } from '@core/utils';
+import { Route } from '@core/interfaces';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -46,12 +46,12 @@ class App{
     }
 
     private connectToDatabase(){
-        //const connectString = process.env.MONGODB_URI;
-        //if (!connectString) {
-        //  Logger.error('Connection string is invalid');
-        //  return;
-        //}
-        const connectString = 'mongodb+srv://dungpv:123456a@@master.jw6k2.mongodb.net/dungpv_social?retryWrites=true&w=majority';
+        const connectString = process.env.MONGODB_URI;
+        if (!connectString) {
+          Logger.error('Connection string is invalid');
+          return;
+        }
+        //const connectString = 'mongodb+srv://dungpv:123456a@@master.jw6k2.mongodb.net/dungpv_social?retryWrites=true&w=majority';
         mongoose
           .connect(connectString, {
             useNewUrlParser: true,

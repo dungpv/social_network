@@ -26,5 +26,6 @@
 
 ## Reference
 
-http://expressjs.com/en/resources/middleware/morgan.html
-https://www.typescriptlang.org/tsconfig
+- http://expressjs.com/en/resources/middleware/morgan.html
+- https://www.typescriptlang.org/tsconfig
+- https://github.com/winstonjs/winston

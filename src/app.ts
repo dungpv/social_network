@@ -21,6 +21,7 @@ class App{
         this.connectToDatabase();
         this.initializeMiddleware();
         this.initializerRoutes(routes);
+        this.initializeErrorMiddleware();
     }
     public listen(){
         this.app.listen(this.port, () => {
@@ -43,11 +44,12 @@ class App{
             this.app.use(morgan('dev'));
             this.app.use(cors({ origin: true, credentials: true }));
           }
-          this.app.use(errorMiddleware);
           this.app.use(express.json());
           this.app.use(express.urlencoded({ extended: true }));
     }
-
+    private initializeErrorMiddleware() {
+      this.app.use(errorMiddleware);
+    }
     private connectToDatabase(){
         const connectString = process.env.MONGODB_URI;
         if (!connectString) {

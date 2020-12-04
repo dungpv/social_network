@@ -1,9 +1,9 @@
-import { NextFunction, Request, RequestHandler, Response } from 'express';
-import { ValidationError, validate } from 'class-validator';
+import { NextFunction, Request, RequestHandler, Response } from "express";
+import { ValidationError, validate } from "class-validator";
 
-import { HttpException } from '@core/exceptions';
-import { Logger } from '@core/utils';
-import { plainToClass } from 'class-transformer';
+import { HttpException } from "@core/exceptions";
+import { Logger } from "@core/utils";
+import { plainToClass } from "class-transformer";
 
 const validationMiddleware = (
   type: any,
@@ -17,8 +17,10 @@ const validationMiddleware = (
             .map((error: ValidationError) => {
               return Object.values(error.constraints!);
             })
-            .join(', ');
+            .join(", ");
           next(new HttpException(400, messages));
+        } else {
+          next();
         }
       }
     );

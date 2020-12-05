@@ -28,5 +28,10 @@ export default class UserRoute implements Route {
     );
 
     this.router.get(this.path + "/:id", this.usersController.getUserById);
+    this.router.get(this.path, this.usersController.getAll);
+    this.router.get(
+      this.path + "/paging/:page/",
+      this.usersController.getAllPaging
+    );
   }
 }

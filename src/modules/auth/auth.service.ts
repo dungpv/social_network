@@ -1,19 +1,19 @@
-import { IUser, TokenData } from '@modules/auth';
+import { IUser, TokenData } from "@modules/auth";
 
-import { DataStoredInToken } from './../auth/auth.interface';
-import { HttpException } from '@core/exceptions';
-import LoginDto from './auth.dto';
-import { UserSchema } from '@modules/users';
-import bcryptjs from 'bcryptjs';
-import { isEmptyObject } from '@core/utils';
-import jwt from 'jsonwebtoken';
+import { DataStoredInToken } from "./../auth/auth.interface";
+import { HttpException } from "@core/exceptions";
+import LoginDto from "./auth.dto";
+import { UserSchema } from "@modules/users";
+import bcryptjs from "bcryptjs";
+import { isEmptyObject } from "@core/utils";
+import jwt from "jsonwebtoken";
 
 class AuthService {
   public userSchema = UserSchema;
 
   public async login(model: LoginDto): Promise<TokenData> {
     if (isEmptyObject(model)) {
-      throw new HttpException(400, 'Model is empty');
+      throw new HttpException(400, "Model is empty");
     }
 
     const user = await this.userSchema.findOne({ email: model.email });
@@ -25,7 +25,7 @@ class AuthService {
       user.password
     );
     if (!isMatchPassword)
-      throw new HttpException(400, 'Credential is not valid');
+      throw new HttpException(400, "Credential is not valid");
 
     return this.createToken(user);
   }

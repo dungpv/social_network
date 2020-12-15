@@ -6,6 +6,7 @@ import { validateEnv } from "@core/utils";
 import UserRoute from "@modules/users/user.route";
 import AuthRoute from "@modules/auth/auth.route";
 import ProfileRoute from "@modules/profile/profile.route";
+import PostsRoute from "@modules/posts/posts.route";
 
 dotenv.config({ path: `${__dirname}/.env` });
 
@@ -16,6 +17,7 @@ const routes = [
   new UserRoute(),
   new AuthRoute(),
   new ProfileRoute(),
+  new PostsRoute(),
 ];
 
 const app = new App(routes);

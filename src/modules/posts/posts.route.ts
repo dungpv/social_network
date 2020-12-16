@@ -29,5 +29,12 @@ export default class PostsRoute implements Route {
       validationMiddleware(CreatePostDto, true),
       this.postsController.updatePost
     );
+
+    this.router.get(this.path + "/:id", this.postsController.getPostById);
+    this.router.get(this.path, this.postsController.getAllPosts);
+    this.router.get(
+      this.path + "/paging/:page/",
+      this.postsController.getAllPaging
+    );
   }
 }

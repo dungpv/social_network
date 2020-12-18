@@ -2,8 +2,9 @@ import { HttpException } from "@core/exceptions";
 import { IPagination } from "@core/interfaces";
 import { UserSchema } from "@modules/users";
 import { PostSchema } from ".";
+import CreateCommentDto from "./dtos/create_comment.dto";
 import CreatePostDto from "./dtos/create_post.dto";
-import { ILike, IPost } from "./posts.interface";
+import { IComment, ILike, IPost } from "./posts.interface";
 
 export default class PostService {
   public async createPost(
@@ -116,5 +117,48 @@ export default class PostService {
 
     await post.save();
     return post.likes;
+  }
+
+  public async addComment(comment: CreateCommentDto): Promise<IComment[]> {
+    const post = await PostSchema.findById(comment.postId).exec();
+    if (!post) throw new HttpException(400, "Post not found");
+
+    const user = await UserSchema.findById(comment.userId)
+      .select("-password")
+      .exec();
+
+    if (!user) throw new HttpException(400, "User not found");
+
+    const newComment = {
+      text: comment.text,
+      name: user.first_name + " " + user.last_name,
+      avatar: user.avatar,
+      user: comment.userId,
+    };
+
+    post.comments.unshift(newComment as IComment);
+    await post.save();
+    return post.comments;
+  }
+
+  public async removeComment(
+    commentId: string,
+    postId: string,
+    userId: string
+  ): Promise<IComment[]> {
+    const post = await PostSchema.findById(postId).exec();
+    if (!post) throw new HttpException(400, "Post not found");
+
+    const comment = post.comments.find((c) => c._id.toString() === commentId);
+    if (!comment) throw new HttpException(400, "Comment not found");
+
+    if (comment.user.toString() !== userId)
+      throw new HttpException(401, "User not authorized");
+
+    post.comments = post.comments.filter(
+      ({ _id }) => _id.toString() !== commentId
+    );
+    await post.save();
+    return post.comments;
   }
 }

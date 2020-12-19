@@ -61,6 +61,17 @@ class ProfileRoute implements Route {
       authMiddleware,
       this.profileController.deleteEducation
     );
+
+    this.router.post(
+      `${this.path}/following/:id`,
+      authMiddleware,
+      this.profileController.follow
+    );
+    this.router.delete(
+      `${this.path}/following/:id`,
+      authMiddleware,
+      this.profileController.unFollow
+    );
   }
 }
 

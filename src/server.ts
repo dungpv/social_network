@@ -7,6 +7,7 @@ import UserRoute from "@modules/users/user.route";
 import AuthRoute from "@modules/auth/auth.route";
 import ProfileRoute from "@modules/profile/profile.route";
 import PostsRoute from "@modules/posts/posts.route";
+import GroupsRoute from "@modules/groups/groups.route";
 
 dotenv.config({ path: `${__dirname}/.env` });
 
@@ -18,6 +19,7 @@ const routes = [
   new AuthRoute(),
   new ProfileRoute(),
   new PostsRoute(),
+  new GroupsRoute(),
 ];
 
 const app = new App(routes);

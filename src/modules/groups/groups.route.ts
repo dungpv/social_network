@@ -22,7 +22,14 @@ export default class GroupsRoute implements Route {
       validationMiddleware(CreateGroupDto, true),
       this.groupsController.createGroup
     );
+    this.router.put(
+      this.path + "/:id",
+      authMiddleware,
+      validationMiddleware(CreateGroupDto, true),
+      this.groupsController.updateGroup
+    );
 
     this.router.get(this.path, this.groupsController.getAll);
+    this.router.delete(this.path + "/:id", this.groupsController.deleteGroup);
   }
 }

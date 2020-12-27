@@ -87,7 +87,6 @@ export default class GroupService {
 
     const user = await UserSchema.findById(userId).select("-password").exec();
     if (!user) throw new HttpException(400, "User id is not exist");
-
     if (
       group.member_requests &&
       group.member_requests.some(
@@ -110,7 +109,9 @@ export default class GroupService {
       );
     }
 
-    group.member_requests.unshift({ user: userId } as IMember);
+    group.member_requests.unshift({
+      user: userId,
+    } as IMember);
 
     await group.save();
     return group;
@@ -133,6 +134,13 @@ export default class GroupService {
       )
     ) {
       throw new HttpException(400, "There is not any request of this user");
+    }
+
+    if (
+      group.members &&
+      group.members.some((item: IMember) => item.user.toString() === userId)
+    ) {
+      throw new HttpException(400, "This user has already been in group");
     }
 
     group.member_requests = group.member_requests.filter(

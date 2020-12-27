@@ -4,6 +4,7 @@ import { Route } from "@core/interfaces";
 import { Router } from "express";
 import { authMiddleware } from "@core/middleware";
 import validationMiddleware from "@core/middleware/validation.middleware";
+import SetManagerDto from "./dtos/set_manager.dto";
 
 export default class GroupsRoute implements Route {
   public path = "/api/v1/groups";
@@ -32,15 +33,33 @@ export default class GroupsRoute implements Route {
     this.router.get(this.path, this.groupsController.getAll);
     this.router.delete(this.path + "/:id", this.groupsController.deleteGroup);
     this.router.post(
-      this.path + "/join/:id",
+      this.path + "/members/:id",
       authMiddleware,
       this.groupsController.joinGroup
     );
 
     this.router.put(
-      this.path + "/:user_id/:group_id",
+      this.path + "/members/:user_id/:group_id",
       authMiddleware,
       this.groupsController.approveJoinRequest
+    );
+
+    this.router.post(
+      this.path + "/managers/:id",
+      authMiddleware,
+      validationMiddleware(SetManagerDto, true),
+      this.groupsController.addManager
+    );
+
+    this.router.delete(
+      this.path + "/managers/:group_id/:user_id",
+      authMiddleware,
+      this.groupsController.removeManager
+    );
+
+    this.router.get(
+      this.path + "/members/:id",
+      this.groupsController.getAllMembers
     );
   }
 }

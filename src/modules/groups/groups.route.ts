@@ -17,21 +17,25 @@ export default class GroupsRoute implements Route {
   }
 
   private initializeRoutes() {
+    // Group
     this.router.post(
       this.path,
       authMiddleware,
       validationMiddleware(CreateGroupDto, true),
       this.groupsController.createGroup
     );
+
     this.router.put(
       this.path + "/:id",
       authMiddleware,
       validationMiddleware(CreateGroupDto, true),
       this.groupsController.updateGroup
     );
-
     this.router.get(this.path, this.groupsController.getAll);
+
     this.router.delete(this.path + "/:id", this.groupsController.deleteGroup);
+
+    //Members
     this.router.post(
       this.path + "/members/:id",
       authMiddleware,
@@ -40,10 +44,21 @@ export default class GroupsRoute implements Route {
 
     this.router.put(
       this.path + "/members/:user_id/:group_id",
-      authMiddleware,
       this.groupsController.approveJoinRequest
     );
 
+    this.router.delete(
+      this.path + "/members/:user_id/:group_id",
+      authMiddleware,
+      this.groupsController.removeMember
+    );
+
+    this.router.get(
+      this.path + "/members/:id",
+      this.groupsController.getAllMembers
+    );
+
+    //Managers
     this.router.post(
       this.path + "/managers/:id",
       authMiddleware,
@@ -55,11 +70,6 @@ export default class GroupsRoute implements Route {
       this.path + "/managers/:group_id/:user_id",
       authMiddleware,
       this.groupsController.removeManager
-    );
-
-    this.router.get(
-      this.path + "/members/:id",
-      this.groupsController.getAllMembers
     );
   }
 }

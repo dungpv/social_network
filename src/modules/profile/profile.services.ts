@@ -27,7 +27,6 @@ class ProfileService {
     }
     return user;
   }
-
   public async createProfile(
     userId: string,
     profileDto: CreateProfileDto
@@ -86,10 +85,10 @@ class ProfileService {
   }
 
   public async deleteProfile(userId: string) {
-    //Remove Profile
+    // Remove profile
     await ProfileSchema.findOneAndRemove({ user: userId }).exec();
-    //Remove User
-    await UserSchema.findOneAndRemove({ user: userId }).exec();
+    // Remove user
+    await UserSchema.findOneAndRemove({ _id: userId }).exec();
   }
 
   public async getAllProfiles(): Promise<Partial<IUser>[]> {
@@ -114,14 +113,17 @@ class ProfileService {
 
     profile.experience.unshift(newExp as IExperience);
     await profile.save();
+
     return profile;
   };
 
   public deleteExperience = async (userId: string, experienceId: string) => {
     const profile = await ProfileSchema.findOne({ user: userId }).exec();
+
     if (!profile) {
       throw new HttpException(400, "There is not profile for this user");
     }
+
     profile.experience = profile.experience.filter(
       (exp) => exp._id.toString() !== experienceId
     );
@@ -141,14 +143,17 @@ class ProfileService {
 
     profile.education.unshift(newEdu as IEducation);
     await profile.save();
+
     return profile;
   };
 
   public deleteEducation = async (userId: string, educationId: string) => {
     const profile = await ProfileSchema.findOne({ user: userId }).exec();
+
     if (!profile) {
       throw new HttpException(400, "There is not profile for this user");
     }
+
     profile.education = profile.education.filter(
       (edu) => edu._id.toString() !== educationId
     );
@@ -217,9 +222,9 @@ class ProfileService {
 
     if (
       toProfile.followers &&
-      toProfile.followers.some(
-        (follower: IFollower) => follower.user.toString() !== fromUserId
-      )
+      toProfile.followers.findIndex(
+        (follower: IFollower) => follower.user.toString() === fromUserId
+      ) !== -1
     ) {
       throw new HttpException(400, "You has not being followed this user");
     }
@@ -264,7 +269,7 @@ class ProfileService {
     if (
       toProfile.friends &&
       toProfile.friends.some(
-        (friend: IFriend) => friend.user.toString() === fromUserId
+        (follower: IFollower) => follower.user.toString() === fromUserId
       )
     ) {
       throw new HttpException(
@@ -276,7 +281,7 @@ class ProfileService {
     if (
       fromProfile.friend_requests &&
       fromProfile.friend_requests.some(
-        (friend: IFriend) => friend.user.toString() === toUserId
+        (follower: IFollower) => follower.user.toString() === toUserId
       )
     ) {
       throw new HttpException(
@@ -309,9 +314,9 @@ class ProfileService {
 
     if (
       toProfile.friends &&
-      toProfile.friends.some(
-        (friend: IFriend) => friend.user.toString() !== fromUserId
-      )
+      toProfile.friends.findIndex(
+        (follower: IFollower) => follower.user.toString() === fromUserId
+      ) === -1
     ) {
       throw new HttpException(400, "You has not yet be friend this user");
     }
@@ -354,7 +359,7 @@ class ProfileService {
     if (
       requestProfile.friends &&
       requestProfile.friends.some(
-        (friend: IFriend) => friend.user.toString() === currentUserId
+        (follower: IFollower) => follower.user.toString() === currentUserId
       )
     ) {
       throw new HttpException(400, "You has already been friend");
@@ -363,7 +368,7 @@ class ProfileService {
     if (
       currentProfile.friends &&
       currentProfile.friends.some(
-        (friend: IFriend) => friend.user.toString() === requestUserId
+        (follower: IFollower) => follower.user.toString() === requestUserId
       )
     ) {
       throw new HttpException(400, "You has already been friend");
@@ -372,7 +377,7 @@ class ProfileService {
     if (
       currentProfile.friend_requests &&
       currentProfile.friend_requests.some(
-        (friend: IFriend) => friend.user.toString() !== requestUserId
+        (follower: IFollower) => follower.user.toString() !== requestUserId
       )
     ) {
       throw new HttpException(

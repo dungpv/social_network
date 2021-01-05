@@ -19,6 +19,10 @@
 - git remote add origin https://github.com/dungpv/social_network.git
 - git push -u origin main
 
+##ESLINT
+
+- yarn add eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin -D "husky": { "hooks": { "pre-commit": "yarn lint" } },
+
 ## lession 10
 
 - init complier: tsc --init

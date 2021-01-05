@@ -6,7 +6,9 @@
   "author": "dungpv",
   "license": "MIT",
   "scripts": {
-    "server": "nodemon src/server.ts"
+    "server": "nodemon src/server.ts",
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -38,7 +40,10 @@
     "@types/morgan": "^1.9.2",
     "@types/swagger-ui-express": "^4.1.2",
     "@types/yamljs": "^0.2.31",
+    "@typescript-eslint/eslint-plugin": "^4.12.0",
+    "@typescript-eslint/parser": "^4.12.0",
     "cross-env": "^7.0.2",
+    "eslint": "^7.17.0",
     "nodemon": "^2.0.6",
     "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",

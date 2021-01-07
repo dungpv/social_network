@@ -1,16 +1,16 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
-import App from "./app";
-import { IndexRoute } from "@modules/index";
-import { validateEnv } from "@core/utils";
-import UserRoute from "@modules/users/user.route";
-import AuthRoute from "@modules/auth/auth.route";
-import ProfileRoute from "@modules/profile/profile.route";
-import PostsRoute from "@modules/posts/posts.route";
-import GroupsRoute from "@modules/groups/groups.route";
-import ConversationsRoute from "@modules/conversations/conversations.route";
+import App from './app';
+import { IndexRoute } from '@modules/index';
+import { validateEnv } from '@core/utils';
+import UserRoute from '@modules/users/user.route';
+import AuthRoute from '@modules/auth/auth.route';
+import ProfileRoute from '@modules/profile/profile.route';
+import PostsRoute from '@modules/posts/posts.route';
+import GroupsRoute from '@modules/groups/groups.route';
+import ConversationsRoute from '@modules/conversations/conversations.route';
 
-dotenv.config({ path: `${__dirname}/.env` });
+//dotenv.config({ path: `${__dirname}/.env` });
 
 validateEnv();
 
